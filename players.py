@@ -15,7 +15,6 @@ class Player:
         if self.rect.top <= 0:
             self.rect.top = 0
     def movedown(self):
-        
         self.rect.bottom += self.vel
         if self.rect.bottom >= self.screen.get_height():
             self.rect.bottom = self.screen.get_height()
