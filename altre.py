@@ -1,6 +1,13 @@
 import pygame
-def collisiontest(oggetto1, oggetto2):
-    collision1 = oggetto1.rect.colliderect(oggetto2)
-    if collision1 == True:
-        oggetto1.vel = -oggetto1.vel
+import random
+from ball import Ball
+
+def decreasepoints(score):
+    score -= 1
+
+    
+
+
+
+    
  

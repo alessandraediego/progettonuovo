@@ -1,7 +1,8 @@
 import pygame
 
-class Player:
+class Player(pygame.sprite.Sprite):
     def __init__(self, p, screen, space, pos, size, pic) -> None:
+        super().__init__()
         self.screen = screen
         self.space = space
         self.p = p
@@ -9,6 +10,7 @@ class Player:
         self.image = pygame.image.load(pic)
         self.image = pygame.transform.scale(self.image, size)
         self.vel = 5
+        self.pos = pos
     def draw(self):
         self.screen.blit(self.image, self.rect)
     
