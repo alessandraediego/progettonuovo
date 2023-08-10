@@ -11,8 +11,8 @@ space2 = pygame.Surface((350, 600))
 pygame.display.set_caption('progetto')
 
 clock = pygame.time.Clock()
-p1 = Player(screen, (100, 100), (100, 100), 'progettonuovo/immagini/monster.png')
-p2 = Player(screen, (600, 600), (100, 100), 'progettonuovo/immagini/monster (1).png')
+p1 = Player(1, screen, space1, (100, 100), (100, 100), 'progettonuovo/immagini/monster.png')
+p2 = Player(2, screen, space2, (600, 600), (100, 100), 'progettonuovo/immagini/monster (1).png')
 while True:
     
     for event in pygame.event.get():
