@@ -2,6 +2,7 @@
 import pygame, sys, random
 from players import Player
 from ball import Ball
+from rectangle import Rectangle
 from altre import decreasepoints
 pygame.init()
 
@@ -21,7 +22,6 @@ scorep1 = 20
 scorep2 = 20
 time = 2000
 timelastevent = pygame.time.get_ticks()
-
 while True:
     
     for event in pygame.event.get():
@@ -43,14 +43,18 @@ while True:
         if event != "1":
             creataball1, creataball2  = False, False
         if event == "2":
-                rect1 = pygame.Rect(25, random.choice([100, 100+space1.get_height()/2]), space1.get_width(), space1.get_height()/2) 
+                rect1 = Rectangle(1, screen, space1, (space1.get_width(), space1.get_height()), 'progettonuovo/immagini/green_rectangle.png')
                 creatorect1 = True
-                rect2 = pygame.Rect(425, random.choice([100, 100+space1.get_height()/2]), space1.get_width(), space1.get_height()/2) 
+                rect2 = Rectangle(2, screen, space2, (space2.get_width(), space2.get_height()), 'progettonuovo/immagini/green_rectangle.png')
                 creatorect2 = True
+                rect1.startmov()
+                rect2.startmov()
         if event != "2":
                 creatorect1 = False
                 creatorect2 = False
-        # print(event)
+        if event == "3":
+            bonuspoints = 
+        print(event)
         timelastevent = currenttime
     keys = pygame.key.get_pressed()
     if keys[pygame.K_w]:
@@ -73,16 +77,29 @@ while True:
         b1.move()
         if pygame.sprite.collide_mask(b1, p1):
             creataball1 = False
-            decreasepoints = True
-            print(scorep1)
+            # decreasepoints = True
+            scorep1 -= 1
+            # print(scorep1)
     if creataball2 == True:
         b2.move()
         if pygame.sprite.collide_mask(b2, p2):
             creataball2 = False
-            decreasepoints = True
-            scorep1 -= 1
+            # decreasepoints = True
+            scorep2 -= 1
             # print(scorep2)
-    print(creataball1)  
+    if creatorect1 == True:
+        rect1.move()
+            
+        if pygame.sprite.collide_mask(rect1, p1):
+            creatorect1 = False
+            scorep1 -= 1
+        
+    if creatorect2 == True:
+        creatorect2 = False
+        rect2.move()
+        if pygame.sprite.collide_mask(rect2, p2):
+            scorep2 -= 1
+    # print(creataball1)  
     
    
     
@@ -94,23 +111,25 @@ while True:
     
     screen.blit(space1, (25, 100))
     screen.blit(space2, (425, 100))
-    if creatorect1 == True:
-        pygame.draw.rect(screen, (255, 0, 0), rect1)
-        if pygame.Rect.colliderect(rect1, p1.rect):
-            scorep1 -= 1
-            print("ciao")
-
-    if creatorect2 == True:
-        pygame.draw.rect(screen, (255, 0, 0), rect2)
-        if pygame.Rect.colliderect(rect2, p2.rect):
-            scorep2 -= 1
     p1.draw()
     p2.draw()
     if creataball1 == True:
         b1.draw()
     if creataball2 == True:
         b2.draw()
+    if creatorect1 == True:
+        rect1.draw()
+    if creatorect2 == True:
+        rect2.draw()
+    pygame.draw.rect(screen, (153, 17, 153), pygame.Rect(0, 0, screen.get_width(), 100))
     pygame.draw.rect(screen, (153, 17, 153), pygame.Rect(0, 700, screen.get_width(), 100))
+    # print(scorep1, scorep2)
+    fontsize = 80
+    font = pygame.font.Font(None, fontsize)
+    text1 = font.render(str(scorep1), 1, (255, 255, 255))
+    text2 = font.render(str(scorep2), 1, (255, 255, 255))
+    screen.blit(text1, (screen.get_width()/4 - (fontsize/2), 40))
+    screen.blit(text2, ((screen.get_width()/4)*3 - (fontsize/2), 40 ))
     pygame.display.flip()
 
     clock.tick(60)
