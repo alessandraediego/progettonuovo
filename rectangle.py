@@ -17,7 +17,7 @@ class Rectangle(pygame.sprite.Sprite):
         elif pos[1] ==  (self.screen.get_height() - 100):
             self.image = pygame.image.load('progettonuovo/immagini/spikesdefs.png')
         self.image = pygame.transform.scale(self.image, size)
-        self.vel = 3
+        self.vel = 4
         self.startmoving = False
     def draw(self):
         self.screen.blit(self.image, self.rect)

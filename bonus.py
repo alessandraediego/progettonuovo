@@ -7,10 +7,10 @@ class Bonus(pygame.sprite.Sprite):
         self.space = space
         self.p = p
         self.x = x
-        if x == "good":
+        if x == "1point":
             pic = 'progettonuovo/immagini/star2.png'
-        elif x == "bad":
-            pic = 'progettonuovo/immagini/monster.png'
+        elif x == "2points":
+            pic = 'progettonuovo/immagini/star (1).png'
         if p == 1:
             pos = (random.randint(25, 25+self.space.get_width()-size[0]), random.randint(100, 100+self.space.get_width() - size[1]))  
         if p == 2:
