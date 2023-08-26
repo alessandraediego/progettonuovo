@@ -1,11 +1,16 @@
 import pygame
 import random
 class Bonus(pygame.sprite.Sprite):
-    def __init__(self, p,  screen, space, size, pic):
+    def __init__(self, p,  screen, space, size, x):
         super().__init__()
         self.screen = screen
         self.space = space
         self.p = p
+        self.x = x
+        if x == "good":
+            pic = 'progettonuovo/immagini/star2.png'
+        elif x == "bad":
+            pic = 'progettonuovo/immagini/monster.png'
         if p == 1:
             pos = (random.randint(25, 25+self.space.get_width()-size[0]), random.randint(100, 100+self.space.get_width() - size[1]))  
         if p == 2:
