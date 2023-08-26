@@ -3,7 +3,7 @@ import pygame, sys, random
 from players import Player
 from ball import Ball
 from rectangle import Rectangle
-from altre import decreasepoints
+from bonus import Bonus
 pygame.init()
 
 window_size = (800, 800)
@@ -11,15 +11,17 @@ screen = pygame.display.set_mode(window_size)
 space1 = pygame.Surface((350, 600))
 space2 = pygame.Surface((350, 600))
 pygame.display.set_caption('progetto')
-creataball1, creataball2  = False, False
-creatorect1 = False
-creatorect2 = False
+createdball1, createdball2  = False, False
+createdrect1 = False
+createdrect2 = False
+createdbonus1, createdbonus2 = False, False
+move = True
 
 clock = pygame.time.Clock()
 p1 = Player(1, screen, space1, (100, 100), (100, 100), 'progettonuovo/immagini/monster.png')
 p2 = Player(2, screen, space2, (600, 600), (100, 100), 'progettonuovo/immagini/monster (1).png')
-scorep1 = 20
-scorep2 = 20
+scorep1 = 10
+scorep2 = 10
 time = 2000
 timelastevent = pygame.time.get_ticks()
 while True:
@@ -36,24 +38,33 @@ while True:
         if event == "1": 
             b1 = Ball(1, screen, space1, (100, 100), 'progettonuovo/immagini/green-slime.png')
             b2 = Ball(2, screen, space2, (100, 100), 'progettonuovo/immagini/green-slime.png')
-            creataball1, creataball2  = True, True
+            createdball1, createdball2  = True, True
             b1.startmov()
             b2.startmov()
          
         if event != "1":
-            creataball1, creataball2  = False, False
+            createdball1, createdball2  = False, False
         if event == "2":
-                rect1 = Rectangle(1, screen, space1, (space1.get_width(), space1.get_height()), 'progettonuovo/immagini/green_rectangle.png')
-                creatorect1 = True
-                rect2 = Rectangle(2, screen, space2, (space2.get_width(), space2.get_height()), 'progettonuovo/immagini/green_rectangle.png')
-                creatorect2 = True
+                rect1 = Rectangle(1, screen, space1, (space1.get_width(), space1.get_height()))
+                createdrect1 = True
+                rect2 = Rectangle(2, screen, space2, (space2.get_width(), space2.get_height()))
+                createdrect2 = True
                 rect1.startmov()
                 rect2.startmov()
         if event != "2":
-                creatorect1 = False
-                creatorect2 = False
-        if event == "3":
-            bonuspoints = 
+                createdrect1 = False
+                createdrect2 = False
+        if event == "3":    
+            time = 1500
+            x = random.choice(["good", "bad"])
+            bonus1 = Bonus(1, screen, space1, (50, 50), x )
+            bonus2 = Bonus(2, screen, space2, (50, 50), x )
+            createdbonus1 = True
+            createdbonus2 = True
+        if event != "3":
+            time = 2000
+            createdbonus1 = False
+            createdbonus2 = False
         print(event)
         timelastevent = currenttime
     keys = pygame.key.get_pressed()
@@ -73,35 +84,50 @@ while True:
         p2.movedown()
     if keys[pygame.K_RIGHT]:
         p2.moveright()
-    if creataball1 == True:
+    if createdball1 == True:
         b1.move()
         if pygame.sprite.collide_mask(b1, p1):
-            creataball1 = False
-            # decreasepoints = True
+            createdball1 = False
+            # decreatedsepoints = True
             scorep1 -= 1
             # print(scorep1)
-    if creataball2 == True:
+    if createdball2 == True:
         b2.move()
         if pygame.sprite.collide_mask(b2, p2):
-            creataball2 = False
-            # decreasepoints = True
+            createdball2 = False
+            # decreatedsepoints = True
             scorep2 -= 1
             # print(scorep2)
-    if creatorect1 == True:
+    if createdrect1 == True:
         rect1.move()
             
         if pygame.sprite.collide_mask(rect1, p1):
-            creatorect1 = False
+            createdrect1 = False
             scorep1 -= 1
         
-    if creatorect2 == True:
-        creatorect2 = False
+    if createdrect2 == True:
         rect2.move()
         if pygame.sprite.collide_mask(rect2, p2):
+            createdrect2 = False
             scorep2 -= 1
-    # print(creataball1)  
+    # print(createdball1)  
+    if createdbonus1 == True:
+        if pygame.sprite.collide_mask(bonus1, p1):
+            if bonus1.x == "good":
+                scorep1 += 1
+            elif bonus1.x == "bad":
+                scorep1 -= 1
+            createdbonus1 = False
+    if createdbonus2 == True:
+        if pygame.sprite.collide_mask(bonus2, p2):
+            if bonus2.x == "good":
+                scorep2 += 1
+            elif bonus2.x == "bad":
+                scorep2 -= 1
+            createdbonus2 = False
     
-   
+
+
     
 
 
@@ -113,14 +139,18 @@ while True:
     screen.blit(space2, (425, 100))
     p1.draw()
     p2.draw()
-    if creataball1 == True:
+    if createdball1 == True:
         b1.draw()
-    if creataball2 == True:
+    if createdball2 == True:
         b2.draw()
-    if creatorect1 == True:
+    if createdrect1 == True:
         rect1.draw()
-    if creatorect2 == True:
+    if createdrect2 == True:
         rect2.draw()
+    if createdbonus1 == True:
+        bonus1.draw()
+    if createdbonus2 == True:
+        bonus2.draw()
     pygame.draw.rect(screen, (153, 17, 153), pygame.Rect(0, 0, screen.get_width(), 100))
     pygame.draw.rect(screen, (153, 17, 153), pygame.Rect(0, 700, screen.get_width(), 100))
     # print(scorep1, scorep2)
